@@ -10,7 +10,7 @@ class LocationProvider with ChangeNotifier {
 
   List<LocationModel> get locations => _locations;
 
-  // Fetch Locations from Firestore
+  // Fetch Locations from Fire store
   Future<void> fetchLocations() async {
     try {
       QuerySnapshot snapshot = await _db.collection('tourist places').get();
