@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'choose_mode.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'login_view.dart';
 
 import 'firebase_options.dart';
 
@@ -15,13 +17,29 @@ void main() async {
   );
   
   runApp(
-    
     MultiProvider(
       providers: [
-     ChangeNotifierProvider(create: (context) => LocationProvider()..fetchLocations()),
+        ChangeNotifierProvider(create: (context) => LocationProvider()..fetchLocations()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        // showPerformanceOverlay: true,
-        home: ChooseMode(),)));
+        home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            
+            if (snapshot.hasData) {
+              // User is logged in
+              return const ChooseMode();
+            }
+            
+            // User is not logged in
+            return const LoginView();
+          },
+        ),
+      ),
+    ),
+  );
 }
