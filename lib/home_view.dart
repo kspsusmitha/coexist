@@ -29,8 +29,49 @@ class _HomeViewState extends State<HomeView> {
               MaterialPageRoute(builder: (context) => const AnimalDetectionView()),
             ),
           ),
-          // ... existing cards ...
+          _buildFeatureCard(
+            context,
+            'Wildlife Guide',
+            Icons.menu_book,
+            () {
+              // TODO: Implement wildlife guide
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Coming soon!')),
+              );
+            },
+          ),
+          _buildFeatureCard(
+            context,
+            'Conservation Tips',
+            Icons.eco,
+            () {
+              // TODO: Implement conservation tips
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Coming soon!')),
+              );
+            },
+          ),
+          _buildFeatureCard(
+            context,
+            'Report Wildlife',
+            Icons.report,
+            () {
+              // TODO: Implement wildlife reporting
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Coming soon!')),
+              );
+            },
+          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AnimalDetectionView()),
+        ),
+        backgroundColor: Colors.green,
+        icon: const Icon(Icons.camera_alt),
+        label: const Text('Detect Animal'),
       ),
     );
   }

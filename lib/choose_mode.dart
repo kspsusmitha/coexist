@@ -1,5 +1,6 @@
 import 'package:co_exist/previous_incidents_view.dart';
 import 'package:co_exist/report_issue_view.dart';
+import 'package:co_exist/animal_detection_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -58,7 +59,7 @@ class ChooseMode extends StatelessWidget {
                       fontWeight: FontWeight.bold
                     ),),
                     SizedBox(
-                      height: 50,
+                      height: 10,
                     ),
                     Expanded(
                       child: Column(
@@ -117,6 +118,32 @@ class ChooseMode extends StatelessWidget {
                               onPressed: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => PreviousIncidentsView(),));
                               }, child: Text("Previous incident")),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                  maximumSize: Size(double.infinity, 45),
+                                  minimumSize: Size(double.infinity, 45),
+                                  backgroundColor: Colors.grey.withOpacity(0.5),
+                                  side: BorderSide(
+                                    width: 2,
+                                    color: Colors.black,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18)
+                                  )
+                              ),
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => AnimalDetectionView(),));
+                              }, child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.camera_alt),
+                                  SizedBox(width: 8),
+                                  Text("Animal Detection"),
+                                ],
+                              )),
                         ],
                       ),
                     ),
