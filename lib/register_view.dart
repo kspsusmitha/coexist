@@ -39,26 +39,58 @@ class _RegisterViewState extends State<RegisterView> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Registration successful!')),
+            const SnackBar(
+              content: Text('Registration successful!'),
+              backgroundColor: Colors.green,
+            ),
           );
           Navigator.pop(context); // Go back to login page
         }
       } on FirebaseAuthException catch (e) {
-        String message = 'An error occurred during registration';
-        if (e.code == 'weak-password') {
-          message = 'The password provided is too weak';
-        } else if (e.code == 'email-already-in-use') {
-          message = 'An account already exists for that email';
+        String message;
+        switch (e.code) {
+          case 'weak-password':
+            message = 'Please choose a stronger password (at least 6 characters)';
+            break;
+          case 'email-already-in-use':
+            message = 'This email is already registered. Please try logging in instead.';
+            break;
+          case 'invalid-email':
+            message = 'Please enter a valid email address';
+            break;
+          case 'operation-not-allowed':
+            message = 'Email/password accounts are not enabled. Please contact support.';
+            break;
+          case 'network-request-failed':
+            message = 'Please check your internet connection and try again';
+            break;
+          default:
+            message = 'Registration failed: ${e.message}';
         }
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message)),
+            SnackBar(
+              content: Text(message),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 5),
+              action: SnackBarAction(
+                label: 'Dismiss',
+                textColor: Colors.white,
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                },
+              ),
+            ),
           );
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('An error occurred. Please try again.')),
+            const SnackBar(
+              content: Text('An unexpected error occurred. Please try again later.'),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 5),
+            ),
           );
         }
       } finally {
